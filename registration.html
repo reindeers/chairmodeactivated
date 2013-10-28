@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+<style>
+body {
+	width: 98%; 
+	}
+.error { 
+	background: #d64949;
+	color: #fff
+	}
+form {
+   border: 0px solid #5c4429;
+   background: #faefe3;
+   background: -webkit-gradient(linear, left top, left bottom, from(#faf6f2), to(#faefe3));
+   background: -webkit-linear-gradient(top, #faf6f2, #faefe3);
+   background: -moz-linear-gradient(top, #faf6f2, #faefe3);
+   background: -ms-linear-gradient(top, #faf6f2, #faefe3);
+   background: -o-linear-gradient(top, #faf6f2, #faefe3);
+   background-image: -ms-linear-gradient(top, #faf6f2 0%, #faefe3 100%);
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+   -webkit-box-shadow: rgba(000,000,000,0.9) 0 1px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+   -moz-box-shadow: rgba(000,000,000,0.9) 0 1px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+   box-shadow: rgba(000,000,000,0.9) 0 1px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+   font-family: 'Helvetica Neue',Helvetica,sans-serif;
+   text-decoration: none;
+   vertical-align: middle;
+   min-width:300px;
+   padding:20px;
+   width:300px;
+   style: block; 
+   position: relative; 
+   margin: auto; 
+   top: 200px;
+   }
+input {
+   border: 1px solid #e0c6a8;
+   background: #f0ece7;
+   -webkit-border-radius: 0px;
+   -moz-border-radius: 0px;
+   border-radius: 0px;
+   color: #8f7e6a;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+   box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+   padding:8px;
+   margin-bottom:20px;
+   width:280px;
+   }
+input:focus {
+   background: #fff;
+   color: #63584b;
+   }
+p {
+   color: #8f8982;
+   font-size: 10px;
+   margin: 0 0 10px 0;
+   text-align:center;
+    }
+h1 {
+   text-align: center;
+   margin-bottom:10px;
+   color: #664826;
+   text-shadow: #e0d5c7 0 1px 0;
+   }
+div {
+   position: relative;
+   width: 200px;
+   left: 65%;
+   top: 0px;   
+   display: none;
+
+}
+</style>
+
+<form name="registration">
+	<h1>Регистрация</h1>
+	<input type="text" name="login" placeholder="логин" size="20" required>
+	<input type="text" name="email" placeholder="e-mail" size="20" required>
+	<input type="password" name="password" placeholder="пароль" size="20" required>
+	<input type="password" name="repeatpassword" placeholder="повторите пароль" size="20" required>
+	<p>Только цифры, буквы латинского алфавита, знаки подчеркивания.</p>
+</form>
+
+<div id="error">Пожалуйста, проверьте введенные данные, что-то пошло не так.</div>
+
+<script>
+var repeatfocus = false;
+var div = document.getElementById('error');
+var form = document.forms.registration;
+var login = form.elements.login;
+var email = form.elements.email;
+var password = form.elements.password;
+var repeatpassword = form.elements.repeatpassword;
+var regexpEmail = /[a-z0-9!$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|ru)\b/;
+var regexpPasLog = /[0-9a-zA-Z_]{4,16}/;
+email.onblur = function() {
+	if (!(email.value.match(regexpEmail))){
+		this.className = 'error';
+		div.style.display = 'block';
+	}
+}
+email.onfocus = function() {
+	if (this.className == 'error'){ 
+    this.className = '';
+	div.style.display = 'none';
+	}
+}
+
+login.onblur = function() {
+	if (!(login.value.match(regexpPasLog))){
+		this.className = 'error';
+		div.style.display = 'block';
+	}
+}
+login.onfocus = function() {
+	if (this.className == 'error') { 
+		this.className = '';
+		div.style.display = 'none';
+	}
+}
+
+password.onblur = function() {
+	if (!(password.value.match(regexpPasLog))) {
+		this.className = 'error';
+		div.style.display = 'block';
+		
+	}
+	if (repeatfocus == true) {
+		if (!(password.value==repeatpassword.value)) {
+			repeatpassword.className = 'error';
+			div.style.display = 'block';
+			div.style.display = 'none';
+		}
+	}
+}
+password.onfocus = function() {
+	if (this.className == 'error') {
+		this.className = '';
+		div.style.display = 'none';
+		
+	}
+}
+
+repeatpassword.onblur = function() {
+	if (!(password.value==repeatpassword.value)) {
+		this.className = 'error';
+		div.style.display = 'block';
+	}
+}
+repeatpassword.onfocus = function() {
+	repeatfocus = true;
+	if (this.className == 'error') {
+		this.className = '';
+		div.style.display = 'none';
+	}
+}
+
+</script>
+</body>
+</html>
