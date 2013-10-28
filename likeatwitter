@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang = "ru">
+<head>
+<title></title>
+</head>
+<body>
+<section id="content"></section>
+<form onsubmit="return false">
+<textarea id="textPostArea"></textarea>
+<input type="submit"  value="Написать" onclick="post()" >
+</form>
+
+<style>
+.post {
+	width: 400px;
+	height: 100px;
+	background: #e2dddd;
+	left: 500px;
+	position: relative;
+	margin: 20px 0px 20px 0px;
+	padding: 20px 20px 20px 20px;
+}
+#newPost {
+	width: 400px;
+	height: 100px;
+	display: block;
+	background: #e2dddd;
+	position: relative;
+	left: 500px;
+	top: 10px;
+	margin: 0px 0px 30px 0px;
+	padding: 20px 20px 20px 20px;
+}
+
+form {
+	width: 200px;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+}
+
+
+</style>
+
+<script>
+function post() {
+	var textPost = document.getElementById('textPostArea').value;
+	document.getElementById('textPostArea').value='';
+	var parentElem = document.getElementById('content');
+	var newPost = document.createElement('article');
+	var oldPost = document.getElementById('newPost');
+	
+	downPost(oldPost);
+	addPost(textPost);
+	
+	function downPost(post) {
+		if (post) {
+			post.className = 'post';
+			post.id = '';
+
+		}
+	}
+
+	function addPost(text) {
+		newPost.id = 'newPost';
+		newPost.innerHTML=text;
+		parentElem.insertBefore(newPost, parentElem.firstChild);
+		
+	}
+}
+
+
+</script>
+</body>
+</html>
