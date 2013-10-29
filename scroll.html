@@ -47,15 +47,18 @@ img {
 <img id="img2"src="http://learn.javascript.ru/files/tutorial/browser/dom/1.gif"  realsrc="http://learn.javascript.ru/files/tutorial/browser/dom/yozhik.jpg">
 
 <script>
-function isVisible(img){
-	if (((img.offsetTop+128) > document.body.scrollTop) || ((img.offsetTop+128) < (document.body.scrollTop+window.innerHeight))) return true;
+var number = 0;
+function isVisible(img, number){
+	if (((img.offsetTop+number) > document.body.scrollTop) || ((img.offsetTop+number) < (document.body.scrollTop+window.innerHeight))) return true;
 }
 	
 window.onload = function(){
 	var imgs = document.getElementsByTagName("img");
 	for (var i=0; i<imgs.length; i++){
-		if (isVisible(imgs[i])){
+	number = getComputedStyle(imgs[i], '').height.split('').reverse().splice(2).reverse().join('');
+		if (isVisible(imgs[i]), number){
 			imgs[i].src = imgs[i].getAttribute('realsrc');
+			
 		}
 	}
 }
@@ -63,8 +66,8 @@ window.onload = function(){
 window.onscroll = function(){
 	var imgs = document.getElementsByTagName("img");
 	for (var i=0; i<imgs.length; i++){
-		if (isVisible(imgs[i])){
-			imgs[i].src = imgs[i].getAttribute('realsrc');
+	number = +(getComputedStyle(imgs[i], '').height.split('').reverse().splice(2).reverse().join(''));
+		if (isVisible(imgs[i]), number){
 		}
 	}
 }
