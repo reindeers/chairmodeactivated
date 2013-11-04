@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8" />
+	<script type="text/javascript" src="jquery-1.10.2.js"></script>
+<script type="text/javascript">
+
+$(function() {
+	$('a[href^=#education]').click(function(){
+		$('a').css({display: 'none'});
+		var articleEducationForm = $('<article>').addClass('article__content__form').attr('id', 'article__content__form__new').appendTo('section > .education');
+		$('div.template.article.form.education').children().clone().appendTo(articleEducationForm);
+	});
+
+	$('a[href^=#information]').click(function(){
+		$('a').css({display: 'none'});
+		var articleInformationForm = $('<article>').addClass('article__content__form').attr('id', 'article__content__form__new').appendTo('section > .information');
+		$('div.template.article.form.information').children().clone().appendTo(articleInformationForm);
+	});
+
+	$('a[href^=#experience]').click(function(){
+		$('a').css({display: 'none'});
+		var articleExperienceForm = $('<article>').addClass('article__content__form').attr('id', 'article__content__form__new').appendTo('section > .experience');
+		$('div.template.article.form.experience').children().clone().appendTo(articleExperienceForm);
+	});
+
+	$('article').on('click', "input[type=submit]", function(event){
+		$('a').css({display: 'inline'});
+		var header = $('#article__content__form__new input[type=text]').val();
+		var message = $('#article__content__form__new textarea').val();
+		var articleInformationText = $('<article>').addClass('article__content__text').attr('id', 'article__content__text__new').appendTo('section > .education').replaceAll('.article__content__form#article__content__form__new');
+		$('div.template.article.text').children().clone().appendTo(articleInformationText);
+		$('#article__content__text__new h1').text(header);
+		$('#article__content__text__new p').text(message);
+		articleInformationText.removeAttr('id');
+	});
+
+})
+</script>
+</head>
+
+<body>
+<div class="template">
+<div class = "template article form education">
+<form>
+<h1>Заголовок</h1>
+<input type = "text">
+<h1>Сообщение</h1>
+<textarea></textarea>
+<input type = "submit" value="Отправить"></form>
+</div>
+
+<div class = "template article form experience">
+<form>
+<h1>Заголовок</h1>
+<input type = "text">
+<h1>Сообщение</h1>
+<textarea></textarea>
+<input type = "submit" value="Отправить"></form>
+</div>
+
+<div class = "template article form information">
+<form>
+<h1>Заголовок</h1>
+<input type = "text">
+<h1>Сообщение</h1>
+<textarea></textarea>
+<input type = "submit" value="Отправить"></form>
+</div>
+
+<div class = "template article text">
+<h1>Заголовок</h1>
+<p>Сообщение</p>
+</div>
+
+</div>
+
+	<section>
+		<article class="information">
+			<h1>Подробная информация</h1>
+			<a href="#information" >добавить</a>
+		</article>
+		
+		<article class = "experience">
+			<h1>Опыт работы</h1>
+			<a href="#experience">добавить</a>
+		</article>
+
+		<article class = "education">
+			<h1>Образование</h1>
+			<a href="#education">добавить</a>
+		</article>
+
+	</section>
+	
+<style>
+.template {display: none;}
+#article__content__form {display: block;}
+#article__content__text {display: block;}
+
+</style>
+
+
+</body>
+</html>
