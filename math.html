@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang = "rus">
+<head>
+<title></title>
+<style>
+html, body, section{
+	width: 99%;
+	}
+.error { 
+	background: #d64949;
+	color: #fff
+	}
+.invisible{
+	display: none;
+	}
+.hint{
+	position: absolute;
+	border: 1px solid #e1e1e1;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 11px;
+	padding: 3px;
+	background-color: #e1e1e1;
+   	}
+.hint:before{ 
+    border: solid;
+    border-color: #e1e1e1 transparent;
+    content: "";
+    left: 50%;
+    position: absolute;
+    z-index: 99;
+	}
+.up.hint:before{ 
+	border-width: 0px 6px 6px 6px;
+	left: 5px;
+	bottom: 20px;
+	}
+.down.hint:before{ 
+	border-width: 6px 6px 0px 6px;
+	top: 20px;
+	left: 5px;
+	}
+#one, #two, #three{
+	position: absolute;
+	width: 99%;
+	}
+#one{
+	top: 30px;
+	}
+#two{
+	top: 90px;
+	}
+#three{
+	top: 150px;
+	}
+span {
+	position: relative;
+	top: 30px;
+}
+span.onlyNumber{
+	left: -11px;
+}
+span.inputNumber{
+	left: -61px;
+}
+span.onlyInput{
+	left: -38px;
+}
+</style>
+<script type="text/javascript" src="jquery-1.10.2.js"></script>
+</head>
+
+<body>
+<section>
+	<div class="visible" id="one">
+
+1 <span class="onlyNumber">3</span> + 2 <span class="onlyNumber">7</span> = 
+1 * <input type="text" size="2"> <span class="inputNumber">3  * <input type="text" size="2"></span> + 2 * <input type="text" size="2"> <span class="inputNumber">7 * <input type="text" size="2"></span> = 
+<input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span> + <input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span class="onlyInput"> = 
+<input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span> 
+
+	</div>
+		
+	<div class="invisible" id="two">
+	
+2 <span class="onlyNumber">9</span> + 1 <span class="onlyNumber">7</span> = 
+2 * <input type="text" size="2"> <span class="inputNumber">9  * <input type="text" size="2"></span> + 1 * <input type="text" size="2"> <span class="inputNumber">7 * <input type="text" size="2"></span> = 
+<input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span> + <input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span class="onlyInput"> = 
+<input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span> 
+
+	</div>
+	
+	<div class="invisible" id="three">
+	
+4 <span class="onlyNumber">5</span> + 1 <span class="onlyNumber">2</span> = 
+4 * <input type="text" size="2"> <span class="inputNumber">5  * <input type="text" size="2"></span> + 1 * <input type="text" size="2"> <span class="inputNumber">2 * <input type="text" size="2"></span> = 
+<input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span> + <input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span class="onlyInput"> = 
+<input type="text" size="2"> <span class="onlyInput"><input type="text" size="2"></span> 
+	</div>
+	
+</section>
+
+<script>
+var count = 30;
+//m - числитель, n - знаменатель
+// m/n + m2/n2 = m*n2/n*n2 + m2*n/n2*n
+
+function getData(elem, cont, m, n, m2, n2){
+	var answers = [n2, n2, n, n, m*n2, n*n2,  m2*n, n2*n, (m*n2)+(m2*n), n*n2];
+	var text = ['Введи знаменатель второй дроби', 'Введи числитель второй дроби', 'Введи знаменатель первой дроби', 'Введи числитель первой дроби', 'Умножь'+m+' на '+n2, 'Умножь'+n+' на '+n2, 'Умножь'+m2+' на '+n, 'Умножь'+n2+' на '+n, 'Сложи числители', 'Запиши знаменатель'];
+	
+	var i = 10;
+	$(elem, cont).each(function(j, element){
+		$(element).data('numbers', answers[j]);
+		$(element).data('data-index', j);
+		$(element).data('context', text[j]);
+		$(element).css('left', i*40+'px');
+		i++;
+	});
+	
+}
+
+function removeData(elem, cont){
+	$(elem, cont).each(function(index, element){
+		$(element).removeData('numbers');
+		$(element).removeData('data-index');
+		$(element).removeData('context');
+	});
+}
+
+function watchIndex (count){
+	var m, n, n2, m2;
+	if (count == 30){
+		removeData("input", "#three");
+		$('input').val('');
+		$('input').each(function(index, element){
+		$(element).removeAttr('disabled');
+		});
+		getData("input", "#one", 1, 3, 2, 7);
+	}
+	if (count == 20){
+		$("#two").toggleClass("invisible visible");
+		removeData("input", "#one");
+		getData("input", "#two", 2, 9, 1, 7);
+	}
+	if (count == 10){
+		$("#three").toggleClass("invisible visible");
+		removeData("input", "#two");
+		getData("input", "#three", 4, 5, 1, 2);
+	}
+}
+
+watchIndex(count);
+
+$('input').focus(function(){
+	var self = this;
+	if ($(this).hasClass('error')){ 
+		$(this).removeClass('error');
+		$('div.hint.visible').each(function(index, element){
+			if ($(element).data('data-index') == $(self).data('data-index')) {
+				$(element).remove();
+				return true;
+			}
+		});	
+	}
+});
+
+$('input').blur(function(){
+	var lineTop = 0;
+	var lineLeft = 0;
+	var addcl = '';
+		if (this.value!=$(this).data('numbers')){
+			var contex = $(this).data('context');
+			var index = $(this).data('data-index');
+			
+			if ($(this).parent('span').length) {
+				lineTop=$(this).offset().top+30;
+				lineLeft=$(this).offset().left+10;
+				addcl='visible hint up';
+			}
+			else {
+				lineTop=$(this).offset().top-30;
+				lineLeft=$(this).offset().left+10;
+				addcl='visible hint down';
+			};
+			$('<div></div>').appendTo('section')
+							.addClass(addcl)
+							.html(contex)
+							.data('data-index', index)
+							.css('display', 'block')
+							.css('top', lineTop)
+							.css('left', lineLeft);
+			$(this).addClass('error');
+		}
+		else{
+			this.disabled = true;
+			count--;
+			if (count==0) {
+				$("#two").toggleClass("invisible visible");
+				$("#three").toggleClass("invisible visible");
+				count =30;
+			}
+			watchIndex(count);
+		}
+});
+
+</script>
+</body>
+</html>
