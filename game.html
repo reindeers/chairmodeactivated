@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8" />
+	<style>
+	#pers{
+	width: 10px;
+	height: 10px;
+	border: 2px solid black;
+	position: absolute;
+	top: 50px;
+	left: 50px;
+
+	}
+
+	#up{
+	width: 10px;
+	height: 10px;
+	border: 2px solid black;
+	position: absolute;
+	top: 50px;
+	left: 100px;
+
+	}
+	#down{
+	width: 10px;
+	height: 10px;
+	border: 2px solid black;
+	position: absolute;
+	top: 40px;
+	left: 200px;
+
+	}
+	</style>
+
+</head>
+<body>
+<script type="text/javascript">
+function pageX(elem) {
+    var p = 0;
+	
+    while ( elem.offsetParent ) {
+        p += elem.offsetLeft;
+        elem = elem.offsetParent;
+    }
+
+    return p;
+}
+
+function pageY(elem) {
+    var p = 0;
+
+    while ( elem.offsetParent ) {
+        p += elem.offsetTop;
+        elem = elem.offsetParent;
+    }
+
+    return p;
+}
+
+function getHeight(elem){
+	var computedStyleElem = window.getComputedStyle ? getComputedStyle(elem, '') : elem.currentStyle;
+	return parseInt(computedStyleElem.height);
+}
+
+function getWidth(elem){
+	var computedStyleElem = window.getComputedStyle ? getComputedStyle(elem, '') : elem.currentStyle;
+	return parseInt(computedStyleElem.width);
+}
+
+function isCollision(elem1, elem2){
+	var height1 = getHeight(elem1);
+	var width1 = getWidth(elem1);
+	var height2 = getHeight(elem2);
+	var width2 = getWidth(elem2);
+
+	if (
+		((pageY(elem1) >= pageY(elem2)) && (pageY(elem1) <= pageY(elem2) + height2) && (pageX(elem1) >= pageX(elem2)) && (pageX(elem1) <= pageX(elem2) +width2)) || 
+		((pageY(elem1) + height1 >= pageY(elem2)) && (pageY(elem1) + height1 <= pageY(elem2) + height2) && (pageX(elem1) + width1 >= pageX(elem2)) && (pageX(elem1) + width1 <= pageX(elem2) + width2)) || 
+		((pageY(elem1) >= pageY(elem2)) && (pageY(elem1) <= pageY(elem2) + height2) && (pageX(elem1) + width1 >= pageX(elem2)) && (pageX(elem1) + width1 <= pageX(elem2) + width2)) || 
+		((pageY(elem1) + height1 >= pageY(elem2)) && (pageY(elem1) + height1 <= pageY(elem2) + height2) && (pageX(elem1) >= pageX(elem2)) && (pageX(elem1) <= pageX(elem2) + width2))
+	){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+var pers = {
+	computedStyle: function(){ 
+		return window.getComputedStyle ? getComputedStyle(this.HTML, '') : this.HTML.currentStyle
+	},
+	self: this,
+	
+	onkeydown: {	
+	
+		
+		37: function(){
+			var left = parseInt(pers.computedStyle().left);
+			pers.HTML.style.left = left - 5+'px';
+		},
+		
+		38: function(){
+			var top = parseInt(pers.computedStyle().top);
+			pers.HTML.style.top = top - 5 + 'px';
+			//setTimeout(function(){
+			  //pers.style.marginTop = 0 + 'px';
+			//},100);
+		},
+		
+		39: function(){
+			var left = parseInt(pers.computedStyle().left);
+			pers.HTML.style.left = left + 5+'px';
+		},
+		
+		40: function(){
+			pers.HTML.style.top = 55 + 'px';
+		}
+	
+	},
+	
+	onkeyup: {
+	
+		40: function(){
+			pers.HTML.style.top = 50 + 'px';
+		}
+	}
+}
+
+pers.HTML = document.createElement("div");
+pers.HTML.id = 'pers';
+document.body.appendChild(pers.HTML);
+
+var up = document.createElement("div");
+up.id = 'up';
+document.body.appendChild(up);
+
+var down = document.createElement("div");
+down.id = 'down';
+document.body.appendChild(down);
+
+document.body.onkeydown = function(event){
+	event = event || window.event;
+	
+	if (isCollision(pers.HTML, up)){
+		alert('Столкновение');
+	}
+	
+	if ( event.keyCode == 37 || event.keyCode == 38 ||  event.keyCode == 39 || event.keyCode == 40) {
+		pers["onkeydown"][event.keyCode]();
+	}
+	
+}
+
+document.body.onkeyup = function(event){
+	event = event || window.event;
+
+	if ( event.keyCode == 40) {
+		pers["onkeyup"][event.keyCode]();
+	}
+}
+</script>
+
+</body>
+</html>
