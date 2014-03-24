@@ -3,218 +3,95 @@
 <head>
 	<meta charset="utf-8" />
 	 <script src="lib.js"></script>
+	 <script src="dragAndDrop.js"></script>
 	<style>
 	.sentence{
 	display: inline-block;
-	position: absolute;
+	position: relative;
 	width: 100px
 	height: 20px;
 	background: yellow;
-		top: 100px;
-	left: 100px;
+	top: 20px;
+	left: 20px;
+	margin-right: 20px;
 	}
 	
 	.empty{
 	display: inline-block;
 	background: green;
-	width: 100px;
-	height: 20px;
+	width: 150px;
+	height: 30px;
 	position: relative;
 	top: 50px;
 	left: 50px;
+	margin-right: 20px;
 	
+	}
+	
+	td{
+	width: 600px;
 	}
 	</style>
 
 
 </head>
 <body>
-<div class="sentence" draggable>hghg</div>
-<div class="empty" droppable></div>
+
 
 <table><tr><td></td><td></td></tr></table>
 
 <script type="text/javascript">
 
+//TODO: подсветка неправильного, запрет дальнейшего перемещения, аякс запро
+function shuffle(v){
+    for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+    return v;
+};
 
-
-
-
-
-
-var dManager = new function() {
-
-	var dObject = {};
-	var self = this; // для доступа к себе из обработчиков
-
-	function onMouseDown(e) { 
-		e = fixEvent(e);
-		
-		if (e.which != 1) return;
-		
-		var dElement = findDraggableElement(e);
-		
-		if (!dElement) return;
-		
-		dObject.element = dElement;
-		dObject.xCord = e.pageX;
-		dObject.yCord = e.pageY;
-	}
-
-	function onMouseMove(e) { 
-		if (!dObject.element) return;
-		e = fixEvent(e);
-		
-		if (!dObject.avatar){
-			var moveX = e.pageX - dObject.xCord;
-			var moveY = e.pageY - dObject.yCord;
-			
-			if ( Math.abs(moveX) < 3 && Math.abs(moveY) < 3 ) {
-				return; // ничего не делать, мышь не передвинулась достаточно далеко
-			}
-			
-			dObject.avatar = createAvatar(e); // создать аватар
-			if (!dObject.avatar) { // отмена переноса, нельзя "захватить" за эту часть элемента
-				dObject = {};
-				return;
-			}
-		
-			var coords = getCoords(dObject.avatar);
-			dObject.shiftX = dObject.xCord - coords.left;
-			dObject.shiftY = dObject.yCord - coords.top;
-			startDrag(e); // отобразить начало переноса
-		}
-	 
-		// отобразить перенос объекта при каждом движении мыши
-		dObject.avatar.style.left = e.pageX - dObject.shiftX + 'px';
-		dObject.avatar.style.top = e.pageY - dObject.shiftY + 'px';
-		 
-		return false;	
-
-	}
-	function onMouseUp(e) { 
-		// (1) обработать перенос, если он идет
-		if (dObject.avatar) {
-			e = fixEvent(e);
-			finishDrag(e);
-		}
-		  // в конце mouseup перенос либо завершился, либо даже не начинался
-		  // (2) в любом случае очистим "состояние переноса" dObject
-		dObject = {};
-	 
-	}
-	
-	function createAvatar(e) {
-  
-    // запомнить старые свойства, чтобы вернуться к ним при отмене переноса
-    var avatar = dObject.element;
-    var old = {
-      parent: avatar.parentNode,
-      nextSibling: avatar.nextSibling,
-      position: avatar.position || '',
-      left: avatar.left || '',
-      top: avatar.top || '',
-      zIndex: avatar.zIndex || ''
-    };
-
-    // функция для отмены переноса
-    avatar.rollback = function() {
-      old.parent.insertBefore(avatar, old.nextSibling);
-      avatar.style.position = old.position;
-      avatar.style.left = old.left;
-      avatar.style.top = old.top;
-      avatar.style.zIndex = old.zIndex
-    };
-
-    return avatar;
-  }
-  
-	function findDraggableElement(event){
-		var element = event.target;
-		
-		while (element != document && element.getAttribute('draggable') == null){
-			element = element.parentNode;
-		}
-		
-		return element == document ? null : element;
-	}
-
-
-	function startDrag(e) {
-		var avatar = dObject.avatar;
-
-		// инициировать начало переноса
-		document.body.appendChild(avatar);
-		avatar.style.zIndex = 9999;
-		avatar.style.position = 'absolute';
-	}
-
-
-	function finishDrag(e) {
-
-		var dElem = findDroppable(e);
-
-		if (!dElem) {
-			self.onDragCancel(dObject);
-		} else {
-			self.onDragEnd(dObject, dElem);
-		}
-		
-	}
-
-
-	function findDroppable(event) {
-	var elem = getElementUnderClientXY(dObject.avatar, event.clientX, event.clientY);
-		while(elem != document && elem.getAttribute('droppable') == null) {
-			elem = elem.parentNode;
-		}
-	return elem == document ? null : elem;
-	}
-
-	/* получить элемент на координатах clientX/clientY, под elem */
-	function getElementUnderClientXY(elem, clientX, clientY) {
-		// сохранить старый display и спрятать переносимый элемент
-		var display = elem.display || '';
-		elem.display = 'none';
-		 
-		  // получить самый вложенный элемент под курсором мыши
-		var target = document.elementFromPoint(clientX, clientY);
-		 
-		  // показать переносимый элемент обратно
-		elem.display = display;
-		 
-		if (!target || target == document) { // такое бывает при выносе за границы окна
-			target = document.body; // поправить значение, чтобы был именно элемент
-		}
-		 
-		return target;
-	}
-
-	 
-	document.onmousedown = onMouseDown;
-	document.onmousemove = onMouseMove;
-	document.onmouseup = onMouseUp;
-	 
-	this.onDragEnd = function(dObject, dElem) { 
-	  /*   dragManager.onDragEnd = function(dObject, dropElem) {
-		  dropElem.className = 'computer computer-smile';
-		  dObject.elem.style.display = 'none';
-		  setTimeout(function() { dropElem.className = 'computer'; }, 200);
-		};
-	*/};
-	
-	this.onDragCancel = function(dObject) { 
-
-	};
-  
+function isEqual(etalon, current){
+	if (etalon == current) return true;
 }
 
- 
- 
- 
+//При загрузке страницы, при нажатии на кнопку
+var jsonStr = '{"0": "Мама", "1": "мыла", "2": "раму"}';
+var arEtalon = JSON.parse(jsonStr);
+var arShuffle = [];
+for (i = 0; i <3; i++){
+	arShuffle[i] = arEtalon[i];
+}
+shuffle(arShuffle);
 
+var divArrayFull = [];
+var divArrayEmpty = [];
+var parentElem = document.body.getElementsByTagName("td")[0];
+var parentElemEmpt = document.body.getElementsByTagName("td")[1];
 
+for (i = 0; i < arShuffle.length; i++){
+	divArrayFull[i] = document.createElement("DIV");
+	divArrayFull[i].className = "sentence";
+	divArrayFull[i].innerHTML = arShuffle[i];
+	divArrayFull[i].setAttribute("draggable","true");
+	parentElem.appendChild(divArrayFull[i]);
+	
 
+	divArrayEmpty[i] = document.createElement("DIV");
+	divArrayEmpty[i].className = "empty";
+	divArrayEmpty[i].setAttribute("droppable", "true");
+	divArrayEmpty[i].setAttribute("number", i);
+	parentElemEmpt.appendChild(divArrayEmpty[i]);
+
+}
+
+ dManager.onDragEnd = function(dObject, dElem) {
+
+	if (isEqual(dObject.element.innerHTML, arEtalon[dElem.getAttribute('number')])){ 
+	
+	//dObject.removeAttribute(draggable); 
+	}
+	else {dElem.style.background = "red"}; //TODO: убирать ошибку
+      
+
+    };
 
 
 
