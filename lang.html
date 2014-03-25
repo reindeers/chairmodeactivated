@@ -6,30 +6,31 @@
 	 <script src="dragAndDrop.js"></script>
 	<style>
 	.sentence{
-	display: inline-block;
-	position: relative;
-	width: 100px
-	height: 20px;
-	background: yellow;
-	top: 20px;
-	left: 20px;
-	margin-right: 20px;
+		display: inline-block;
+		position: relative;
+		width: 100px
+		height: 20px;
+		background: yellow;
+		top: 20px;
+		left: 20px;
+		margin-right: 20px;
 	}
 	
 	.empty{
-	display: inline-block;
-	background: green;
-	width: 150px;
-	height: 30px;
-	position: relative;
-	top: 50px;
-	left: 50px;
-	margin-right: 20px;
-	
+		display: inline-block;
+		background: green;
+		width: 100px;
+		height: 50px;
+		position: relative;
+		top: 50px;
+		left: 50px;
+		margin: 0 20px 0 0;
+		padding: 0px 0px 0px 30px;
 	}
 	
 	td{
-	width: 600px;
+		width: 600px;
+		height: 40px;
 	}
 	</style>
 
@@ -42,21 +43,35 @@
 
 <script type="text/javascript">
 
-//TODO: подсветка неправильного, запрет дальнейшего перемещения, аякс запро
-function shuffle(v){
-    for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
-    return v;
+
+var jsonStr = '{"0": "Мама", "1": "мыла", "2": "раму", "3": "мылом"}'; //через getElement()
+var arEtalon = JSON.parse(jsonStr);
+var arShuffle = [];
+
+/*function getElement() {
+  var xhr = new XMLHttpRequest(); 
+  xhr.open('GET', '/getElement', true);
+ 
+  xhr.onreadystatechange = function() {  
+    if (xhr.readyState != 4) return; 
+ 
+    jsonStr = xhr.responseText; 
+  }
+
+  xhr.send(null);
+}*/
+
+function shuffle(ar){
+    for(var j, x, i = ar.length; i; j = parseInt(Math.random() * i), x = ar[--i], ar[i] = ar[j], ar[j] = x);
+    return ar;
 };
 
 function isEqual(etalon, current){
 	if (etalon == current) return true;
 }
 
-//При загрузке страницы, при нажатии на кнопку
-var jsonStr = '{"0": "Мама", "1": "мыла", "2": "раму"}';
-var arEtalon = JSON.parse(jsonStr);
-var arShuffle = [];
-for (i = 0; i <3; i++){
+
+for (i = 0; i < 4; i++){
 	arShuffle[i] = arEtalon[i];
 }
 shuffle(arShuffle);
@@ -80,18 +95,24 @@ for (i = 0; i < arShuffle.length; i++){
 	divArrayEmpty[i].setAttribute("number", i);
 	parentElemEmpt.appendChild(divArrayEmpty[i]);
 
-}
+	}
 
  dManager.onDragEnd = function(dObject, dElem) {
 
 	if (isEqual(dObject.element.innerHTML, arEtalon[dElem.getAttribute('number')])){ 
-	
-	//dObject.removeAttribute(draggable); 
+
+	setTimeout(function() { 
+		dElem.innerHTML = dObject.element.innerHTML; 
+		dElem.style.background = "white";
+		dObject.element.style.display = "none";  
+	}, 200);	
+	dElem.removeAttribute("droppable"); 
 	}
 	else {dElem.style.background = "red"}; //TODO: убирать ошибку
       
 
     };
+
 
 
 

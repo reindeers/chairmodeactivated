@@ -1,4 +1,4 @@
-
+//отсюда http://learn.javascript.ru/lib
 
 function fixEvent(e) {
   e = e || window.event;
