@@ -8,6 +8,7 @@
 <script>
 var test = (function(){
 	var number = 10;
+	var that = this;
 		return {
 			getNumber: function (){
 			return number;
@@ -17,14 +18,37 @@ var test = (function(){
 			}
 		}
 }());
+
 var newNumber = test;
 newNumber.setNumber(5);
-alert(newNumber.getNumber());
+//alert(newNumber.getNumber());
 
 var newNumber2 = test;
 newNumber2.setNumber(7);
-alert(newNumber2.getNumber());
+//alert(newNumber2.getNumber());
+//alert(newNumber.getNumber());
+
+Object.prototype.method = function(name, func){
+		Object.prototype.method[name] = func;
+}
+
+test.method("add", function(){
+	test.setNumber(8);
+});
+
+newNumber.method["add"]();
 alert(newNumber.getNumber());
+
+/*String.prototype.method("count", function(n){
+	var cnt = 0;
+
+	return function(){
+		return cnt++;
+	};
+}());
+
+var num = "fd";
+alert(num.count());*/
 </script>
 </body>
 </html>
