@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang = "ru">
+<head>
+<title></title>
+</head>
+<body>
+<script>
+var test = (function(){
+	var number = 10;
+		return {
+			getNumber: function (){
+			return number;
+			},
+			setNumber: function(n){
+			number = n;
+			}
+		}
+}());
+var newNumber = test;
+newNumber.setNumber(5);
+alert(newNumber.getNumber());
+
+var newNumber2 = test;
+newNumber2.setNumber(7);
+alert(newNumber2.getNumber());
+alert(newNumber.getNumber());
+</script>
+</body>
+</html>
