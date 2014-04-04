@@ -7,9 +7,9 @@
 <body>
 <script>
 var notSortTables = {
-"card0": {"to": "Москва", "from": "Лондон"},
-"card1": {"to": "Лондон", "from": "Прага"},
-"card2": {"to": "Прага", "from": "Вильнюс"}
+"card0": {"from": "Москва", "to": "Лондон"},
+"card1": {"from": "Лондон", "to": "Прага"},
+"card2": {"from": "Прага", "to": "Вильнюс"}
 };
 
 var constrTable = function(fTable){
@@ -18,10 +18,10 @@ var constrTable = function(fTable){
 		from: fTable["from"] || "not identf",
 		to: fTable["to"] || "not identf",
 		getFrom: function(){
-		return this.from;
+			return this.from;
 		},
 		getTo: function(){
-		return this.to;
+			return this.to;
 		}
 	}
 }
@@ -32,15 +32,19 @@ var cardSet = function(){
 		
 	return {
 		doSet: function(){
-		for (var i = 0; i < 3; i++){
-			var pName = "card" + i;
-			nCard[i] = constrTable(notSortTables[pName]);
-		}
+			for (var i = 0; i < 3; i++){
+				var pName = "card" + i;
+				nCard[i] = constrTable(notSortTables[pName]);
+			}
 		}(),
-		getSet: function(){return nCard;},
+		
+		getSet: function(){
+			return nCard;
+		},
+		
 		hashAdd: function(){
 			var hArr = [],
-			cSet0= nCard[0],
+			cSet0 = nCard[0],
 			cSet1 = nCard[1],
 			uniqTabl = cSet0.getFrom();
 			
@@ -48,7 +52,7 @@ var cardSet = function(){
 
 				var checkUniq = function(){
 					for (var i = 0; i < hArr.length; i++){
-						if (cSet1.getFrom() !== hArr[i]) uniqTabl = cSet1.getTo();
+						if (cSet1.getFrom() != hArr[i]) uniqTabl = cSet1.getFrom();
 
 					}
 				}
