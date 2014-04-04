@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang = "ru">
+<head>
+<title></title>
+</head>
+<body>
+<script>
+
+var constrTable = function(fValue, tValue){
+	var that = this;
+	return{
+		from: fValue || "not identf",
+		to: tValue || "not identf",
+		getFrom: function(){
+		return this.from;
+		},
+		getTo: function(){
+		return this.to;
+		}
+	}
+}
+
+var hashAdd = function(tbl, tbl2){
+var hArr = [];
+var uniqTabl = tbl.getFrom();
+		hArr.push(tbl.getTo());
+
+	
+	var checkUniq = function(){
+		for (var i = 0; i < hArr.length; i++){
+			if (tbl2.getFrom() !== hArr[i]) uniqTabl = tbl2.getTo();
+
+		}
+	}
+	checkUniq();
+return uniqTabl;
+}
+
+var newTabl = constrTable("Москва", "Лондон");
+var newTabl2 = constrTable("Лондон", "Прага");
+var newTabl3 = constrTable("Прага", "Вильнюс");
+console.log(hashAdd(newTabl, newTabl2));
+</script>
+</body>
+</html>
