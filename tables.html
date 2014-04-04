@@ -42,14 +42,24 @@ var uniqTabl = tbl.getFrom();
 return uniqTabl;
 }
 
-var nCard = [];
-for (var i = 0; i < 3; i++){
-var pName = "card" + i;
-nCard[i] = constrTable(notSortTables[pName]);
-//
-}
+var cardSet = function(){
+	var nCard = [],
+		that = this;
+		
+	return {
+		doSet: function(){
+		for (var i = 0; i < 3; i++){
+			var pName = "card" + i;
+			nCard[i] = constrTable(notSortTables[pName]);
+		}
+		}(),
+		getSet: function(){return nCard;}
+	}
+}();
 
-console.log(hashAdd(nCard[0], nCard[1]));
+
+console.log(cardSet.getSet());
+//console.log(hashAdd(nCard[0], nCard[1]));
 </script>
 </body>
 </html>
