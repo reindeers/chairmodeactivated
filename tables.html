@@ -26,22 +26,6 @@ var constrTable = function(fTable){
 	}
 }
 
-var hashAdd = function(tbl, tbl2){
-var hArr = [];
-var uniqTabl = tbl.getFrom();
-		hArr.push(tbl.getTo());
-
-	
-	var checkUniq = function(){
-		for (var i = 0; i < hArr.length; i++){
-			if (tbl2.getFrom() !== hArr[i]) uniqTabl = tbl2.getTo();
-
-		}
-	}
-	checkUniq();
-return uniqTabl;
-}
-
 var cardSet = function(){
 	var nCard = [],
 		that = this;
@@ -53,13 +37,31 @@ var cardSet = function(){
 			nCard[i] = constrTable(notSortTables[pName]);
 		}
 		}(),
-		getSet: function(){return nCard;}
+		getSet: function(){return nCard;},
+		hashAdd: function(){
+			var hArr = [],
+			cSet0= nCard[0],
+			cSet1 = nCard[1],
+			uniqTabl = cSet0.getFrom();
+			
+			hArr.push(cSet0.getTo());
+
+				var checkUniq = function(){
+					for (var i = 0; i < hArr.length; i++){
+						if (cSet1.getFrom() !== hArr[i]) uniqTabl = cSet1.getTo();
+
+					}
+				}
+				checkUniq();
+			return uniqTabl;
+			}
+
 	}
 }();
 
 
 console.log(cardSet.getSet());
-//console.log(hashAdd(nCard[0], nCard[1]));
+console.log(cardSet.hashAdd());
 </script>
 </body>
 </html>
