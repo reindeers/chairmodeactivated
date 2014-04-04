@@ -6,12 +6,17 @@
 </head>
 <body>
 <script>
+var notSortTables = {
+"card0": {"to": "Москва", "from": "Лондон"},
+"card1": {"to": "Лондон", "from": "Прага"},
+"card2": {"to": "Прага", "from": "Вильнюс"}
+};
 
-var constrTable = function(fValue, tValue){
+var constrTable = function(fTable){
 	var that = this;
 	return{
-		from: fValue || "not identf",
-		to: tValue || "not identf",
+		from: fTable["from"] || "not identf",
+		to: fTable["to"] || "not identf",
 		getFrom: function(){
 		return this.from;
 		},
@@ -37,10 +42,14 @@ var uniqTabl = tbl.getFrom();
 return uniqTabl;
 }
 
-var newTabl = constrTable("Москва", "Лондон");
-var newTabl2 = constrTable("Лондон", "Прага");
-var newTabl3 = constrTable("Прага", "Вильнюс");
-console.log(hashAdd(newTabl, newTabl2));
+var nCard = [];
+for (var i = 0; i < 3; i++){
+var pName = "card" + i;
+nCard[i] = constrTable(notSortTables[pName]);
+//
+}
+
+console.log(hashAdd(nCard[0], nCard[1]));
 </script>
 </body>
 </html>
