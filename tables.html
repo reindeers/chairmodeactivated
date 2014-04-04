@@ -6,11 +6,6 @@
 </head>
 <body>
 <script>
-var notSortTables = {
-"card0": {"from": "Москва", "to": "Лондон"},
-"card1": {"from": "Лондон", "to": "Прага"},
-"card2": {"from": "Прага", "to": "Вильнюс"}
-};
 
 var constrTable = function(fTable){
 	var that = this;
@@ -28,7 +23,13 @@ var constrTable = function(fTable){
 
 var cardSet = function(){
 	var nCard = [],
-		that = this;
+		that = this,
+		notSortTables = {
+			"card0": {"from": "Москва", "to": "Лондон"},
+			"card1": {"from": "Лондон", "to": "Прага"},
+			"card2": {"from": "Прага", "to": "Вильнюс"}
+		}; //выбирать с сервера
+
 		
 	return {
 		doSet: function(){
@@ -50,16 +51,16 @@ var cardSet = function(){
 			
 			hArr.push(cSet0.getTo());
 
-				var checkUniq = function(){
-					for (var i = 0; i < hArr.length; i++){
-						if (cSet1.getFrom() != hArr[i]) uniqTabl = cSet1.getFrom();
-
-					}
+			var checkUniq = function(){
+				for (var i = 0; i < hArr.length; i++){
+					if (cSet1.getFrom() != hArr[i]) uniqTabl = cSet1.getFrom();
 				}
-				checkUniq();
-			return uniqTabl;
 			}
-
+			
+			checkUniq();
+			return uniqTabl;
+			//TODO: сделать не только для двух.
+		}
 	}
 }();
 
