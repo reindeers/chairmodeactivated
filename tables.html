@@ -43,23 +43,32 @@ var cardSet = function(){
 			return nCard;
 		},
 		
-		hashAdd: function(){
+		hashAdd: function hAdd(){
 			var hArr = [],
-			cSet0 = nCard[0],
-			cSet1 = nCard[1],
-			uniqTabl = cSet0.getFrom();
+				uniqTabl = "Москва";
+
+			
+			for (var j = 0; j < (nCard.length - 1); j++){
+			var cSet0 = nCard[j],
+				cSet1 = nCard[j+1],
+				count = 0;
+				
+			
 			
 			hArr.push(cSet0.getTo());
 
 			var checkUniq = function(){
 				for (var i = 0; i < hArr.length; i++){
-					if (cSet1.getFrom() != hArr[i]) uniqTabl = cSet1.getFrom();
+					if (cSet1.getFrom() != hArr[i])  count++; uniqT = cSet1.getFrom();
 				}
+				if (count == hArr.length) uniqTabl = uniqT;
 			}
+			
+			} //TODO: рефакторинг
 			
 			checkUniq();
 			return uniqTabl;
-			//TODO: сделать не только для двух.
+	
 		}
 	}
 }();
