@@ -41,7 +41,7 @@ var cardSet = (function(){
 		}, //выбирать с сервера
 		cardCount = Object.keys(notSortTables).length,
 		nCardSort = [],
-		uObj = {};
+		uObj = {uniqId: 0, uniqTabl: "Лондон"};
 		
 	return {
 		doSet: function(){
@@ -57,7 +57,7 @@ var cardSet = (function(){
 		
 		hashAdd: function (){ //сделать рекурсивно
 			var hArr = [];
-			uObj = {uniqId: 0, uniqTabl: "Москва"};	
+				
 			
 			for (var j = 0; j < (nCard.length - 1); j++){
 				var cSet0 = nCard[j],
@@ -72,22 +72,27 @@ var cardSet = (function(){
 					for (var i = 0; i < hArr.length; i++){
 						if (cSet1.getFrom() != hArr[i])  count++; uniqT = cSet1.getFrom(); 
 					}
-					if (count == hArr.length) uObj.uniqTabl = uniqT; uObj.uniqId = count;
+					if (count == hArr.length) uObj.uniqTabl = uniqT; uObj.uniqId = count; //setUObj!
 				}
+				
 			
 			} //TODO: рефакторинг
 			
 			checkUniq();
+
+			
 	
 		},
 		
 		sortCard: function () {
-			this.hashAdd();
-			nCardSort.push(nCard[uObj.uniqId]);
-			nCard.splice(uObj.uniqId, 1);
-			console.log(uObj);
-			console.log(nCard);
-		
+			for (var i = 0; i < 4; i++){
+				this.hashAdd();
+				nCardSort[i] = nCard[uObj.uniqId];
+				nCard.splice(uObj.uniqId, 1);
+			
+			}
+			//console.log(nCard);
+			console.log(nCardSort);
 		}
 	}
 }());
