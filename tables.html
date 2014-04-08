@@ -7,6 +7,11 @@
 <body>
 <script>
 
+/*alert({a: 5, b: 6}.length);
+Object.prototype.length = function(){
+	return Object.keys(Object).length;
+}();*/
+
 var constrTable = function(fTable){
 	var that = this;
 	return{
@@ -21,19 +26,25 @@ var constrTable = function(fTable){
 	}
 }
 
-var cardSet = function(){
+
+
+var cardSet = (function(){
 	var nCard = [],
 		that = this,
 		notSortTables = {
-			"card0": {"from": "Москва", "to": "Лондон"},
-			"card1": {"from": "Лондон", "to": "Прага"},
-			"card2": {"from": "Прага", "to": "Вильнюс"}
-		}; //выбирать с сервера
-
+			
+			"card0": {"from": "Лондон", "to": "Прага"},
+			"card1": {"from": "Прага", "to": "Вильнюс"},
+			"card2": {"from": "Москва", "to": "Лондон"}, //первая,
+			"card3": {"from": "Вильнюс", "to": "Питер"},
+			"card4": {"from": "Питер", "to": "Пекин"}
+		}, //выбирать с сервера
+		cardCount = Object.keys(notSortTables).length,
+		nCardSort = [];
 		
 	return {
 		doSet: function(){
-			for (var i = 0; i < 3; i++){
+			for (var i = 0; i < 5; i++){ //TODO: рефакторинг
 				var pName = "card" + i;
 				nCard[i] = constrTable(notSortTables[pName]);
 			}
@@ -43,39 +54,49 @@ var cardSet = function(){
 			return nCard;
 		},
 		
-		hashAdd: function hAdd(){
+		hashAdd: function (){
 			var hArr = [],
-				uniqTabl = "Москва";
+				uObj = {uniqId: 0, uniqTabl: "Москва"};
 
 			
 			for (var j = 0; j < (nCard.length - 1); j++){
-			var cSet0 = nCard[j],
-				cSet1 = nCard[j+1],
-				count = 0;
+				var cSet0 = nCard[j],
+					cSet1 = nCard[j+1],
+					count = 0;
+					
 				
-			
-			
-			hArr.push(cSet0.getTo());
+				
+				hArr.push(cSet0.getTo());
 
-			var checkUniq = function(){
-				for (var i = 0; i < hArr.length; i++){
-					if (cSet1.getFrom() != hArr[i])  count++; uniqT = cSet1.getFrom();
+				var checkUniq = function(){
+					for (var i = 0; i < hArr.length; i++){
+						if (cSet1.getFrom() != hArr[i])  count++; uniqT = cSet1.getFrom(); uId = j; //id неверно
+					}
+					if (count == hArr.length) uObj.uniqTabl = uniqT; uObj.uniqId = uId;
 				}
-				if (count == hArr.length) uniqTabl = uniqT;
-			}
 			
 			} //TODO: рефакторинг
 			
 			checkUniq();
-			return uniqTabl;
+			return uObj;
 	
+		},
+		
+		sortCard: function () {
+			var uniqObj = {uniqId: 2, uniqTabl: "Москва"}; 
+			//= nCard.hashAdd();
+			nCardSort.push(notSortTables["card" + uniqObj.uniqId]);
+			console.log(nCardSort);
+			
+		
 		}
 	}
-}();
+}());
 
-
-console.log(cardSet.getSet());
-console.log(cardSet.hashAdd());
+var testSet = cardSet;
+console.log(testSet.getSet());
+console.log(testSet.hashAdd());
+console.log(testSet.sortCard());
 </script>
 </body>
 </html>
