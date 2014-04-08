@@ -31,8 +31,8 @@ var constrTable = function(fTable){
 var cardSet = (function(){
 	var nCard = [],
 		that = this,
+		hArr = ["Прага", "Вильнюс", "Лондон", "Питер", "Пекин"], //TODO: исправить
 		notSortTables = {
-			
 			"card0": {"from": "Лондон", "to": "Прага"},
 			"card1": {"from": "Прага", "to": "Вильнюс"},
 			"card2": {"from": "Москва", "to": "Лондон"}, //первая,
@@ -48,6 +48,7 @@ var cardSet = (function(){
 			for (var i = 0; i < 5; i++){ //TODO: рефакторинг
 				var pName = "card" + i;
 				nCard[i] = constrTable(notSortTables[pName]);
+
 			}
 		}(),
 		
@@ -55,50 +56,39 @@ var cardSet = (function(){
 			return nCard;
 		},
 		
-		hashAdd: function (){ //сделать рекурсивно
-			var hArr = [];
-				
+		checkUniq: function (){
 			
 			for (var j = 0; j < (nCard.length - 1); j++){
 				var cSet0 = nCard[j],
 					cSet1 = nCard[j+1],
 					count = 0;
-				
-				
-				
-				hArr.push(cSet0.getTo());
-
-				var checkUniq = function(){
 					for (var i = 0; i < hArr.length; i++){
-						if (cSet1.getFrom() != hArr[i])  count++; uniqT = cSet1.getFrom(); 
+						//сортировка
 					}
-					if (count == hArr.length) uObj.uniqTabl = uniqT; uObj.uniqId = count; //setUObj!
 				}
 				
 			
-			} //TODO: рефакторинг
+			 //TODO: рефакторинг
 			
-			checkUniq();
-
 			
-	
 		},
 		
 		sortCard: function () {
+			
 			for (var i = 0; i < 4; i++){
-				this.hashAdd();
-				nCardSort[i] = nCard[uObj.uniqId];
+				cardSet.checkUniq();
+
+				nCardSort[i] = nCard[uObj.uniqId]; 
 				nCard.splice(uObj.uniqId, 1);
 			
 			}
-			//console.log(nCard);
+			console.log(nCard);
 			console.log(nCardSort);
 		}
 	}
 }());
 
 var testSet = cardSet;
-console.log(testSet.getSet());
 testSet.sortCard();
 
 </script>
