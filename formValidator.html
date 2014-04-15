@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang = "ru">
+<head>
+<title></title>
+<style>
+div{
+	display: none;
+}
+</style>
+</head>
+<body>
+<a href = "#">Оставить отзыв</a>
+
+<div><form onsubmit="return false">
+<p>
+<input type="text" name="email" placeholder="e-mail" size="20">
+</p>
+<p>
+<input type="text" name="name" placeholder="name" size="20">
+</p>
+<p>
+<textarea rows="10" cols="45" name="text"></textarea>
+</p>
+<p>
+<label><span>gfgf  </span><input type="text" name="captcha" placeholder="captcha" size="7"></label>
+</p>
+<input type="submit" value="Отправить" name= "but" >
+</form></div>
+
+<script>
+var createTable = function(obj){
+
+	var userNameValue = obj.userName || '',
+		emailValue = obj.email || '', 
+		textAreaValue = obj.textArea || '',
+		captchaValue = obj.captcha || '',
+		reg = /[a-z0-9!$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|ru)\b/;
+				
+	
+	return {
+			getUserName: function(){
+				return userNameValue;
+			},
+			getTextArea: function(){
+				return textAreaValue;
+			},
+			getCaptcha: function(){
+				return captchaValue;
+			},
+						
+			getEmail: function(){
+				return emailValue;
+			},	
+			
+			isValidEmail: function(){
+				if (emailValue.match(reg)){
+					return true;
+				} else {
+					return false;
+				}
+			},
+			
+			isValidCaptcha: function(){
+				if (captchaValue == newCaptcha.sum()){
+					return true;
+				} else {
+					return false;
+				}
+			},
+			
+			isNotEmpty:	function(){
+				if (textAreaValue == '' || userNameValue == '' || captchaValue == ''){
+					return false;
+				} else {
+					return true;
+				}
+			},
+			
+		}
+};
+
+
+var src = document.getElementsByTagName("a")[0],
+	div = document.getElementsByTagName("div")[0],
+	span = document.getElementsByTagName("span")[0],
+	form = document.getElementsByTagName("form")[0];
+	
+var createCaptcha = function(){
+	var x, y;
+	return {
+	defineXY: function(){
+		x = Math.floor(Math.random()*20+1);
+		y = Math.floor(Math.random()*20+1);
+	}, 
+	sum: function(){
+		return x + y;
+	},		
+	grafSum: function(){
+		return x + "+" + y;
+		}
+	};
+}();	
+
+
+var newCaptcha = createCaptcha;
+
+src.onclick = function() {
+	newCaptcha.defineXY();
+	div.style.display = "block";
+	span.innerHTML = newCaptcha.grafSum();
+}
+
+form.but.onclick = function() {
+	var newTable = createTable({email: form.email.value, userName: form.name.value, textArea: form.text.value, captcha: form.captcha.value}); 
+	if (!(newTable.isValidEmail())){
+		alert('Исправьте, пожалуйста, email'); 
+		return false;
+	}
+	if (!(newTable.isValidCaptcha())){
+		alert('Исправьте, пожалуйста, капчу'); 
+		return false;
+	}
+	if (!(newTable.isNotEmpty())){
+		alert('Заполните поля'); 
+		return false;
+	}
+
+	div.style.display = "none";
+	form.email.value = '';
+	form.name.value = '';
+	form.text.value = '';
+	form.captcha.value = '';
+	var data = document.createElement('section');
+	data.innerHTML = newTable.getEmail() + '  ' + newTable.getUserName() + '  ' + newTable.getTextArea(); 
+	document.body.appendChild(data);
+}
+
+
+
+
+</script>
+</body>
+</html>
