@@ -48,48 +48,57 @@ var cardSet = (function(){
 			for (var i = 0; i < 5; i++){ //TODO: рефакторинг
 				var pName = "card" + i;
 				nCard[i] = constrTable(notSortTables[pName]);
-
 			}
+						
+			
 		}(),
 		
 		getSet: function(){
 			return nCard;
 		},
 		
-		checkUniq: function (){
+		checkUniq: function (){	 //TODO: рефакторинг (алгоритм сортировки)
 			
-			for (var j = 0; j < (nCard.length - 1); j++){
-				var cSet0 = nCard[j],
-					cSet1 = nCard[j+1],
-					count = 0;
+			for (var j = 0; j < (nCard.length); j++){
+				var cSet = nCard[j].getFrom(),
+					count = 0, 
+					uId = j;
 					for (var i = 0; i < hArr.length; i++){
-						//сортировка
+						if (cSet != hArr[i]) count++;
+					}
+					
+					if (count == hArr.length) {
+						uObj.uniqTable = cSet;
+						uObj.uniqId = uId;
+
+						return;
+
 					}
 				}
-				
-			
-			 //TODO: рефакторинг
-			
 			
 		},
 		
 		sortCard: function () {
-			
+
 			for (var i = 0; i < 4; i++){
 				cardSet.checkUniq();
 
-				nCardSort[i] = nCard[uObj.uniqId]; 
+				nCardSort[i] = nCard[uObj.uniqId];
+				
 				nCard.splice(uObj.uniqId, 1);
+				hArr.splice(uObj.uniqId, 1);
 			
 			}
-			console.log(nCard);
-			console.log(nCardSort);
+									console.log(nCardSort);
+			
 		}
 	}
 }());
 
 var testSet = cardSet;
+
 testSet.sortCard();
+
 
 </script>
 </body>
