@@ -7,21 +7,24 @@
 <body>
 <script>
 
-/*alert({a: 5, b: 6}.length);
-Object.prototype.length = function(){
-	return Object.keys(Object).length;
-}();*/
-
 var constrTable = function(fTable){
 	var that = this;
 	return{
 		from: fTable["from"] || "not identf",
 		to: fTable["to"] || "not identf",
+		by: fTable["by"] || "not identf",
+		number: fTable["number"] || "",
 		getFrom: function(){
 			return this.from;
 		},
 		getTo: function(){
 			return this.to;
+		},
+		getBy: function(){
+			return this.by;
+		},
+		getNumber: function(){
+			return this.number;
 		}
 	}
 }
@@ -31,21 +34,20 @@ var constrTable = function(fTable){
 var cardSet = (function(){
 	var nCard = [],
 		that = this,
-		hArr = ["Прага", "Вильнюс", "Лондон", "Питер", "Пекин"], //TODO: исправить
 		notSortTables = {
-			"card0": {"from": "Лондон", "to": "Прага"},
-			"card1": {"from": "Прага", "to": "Вильнюс"},
-			"card2": {"from": "Москва", "to": "Лондон"}, //первая,
-			"card3": {"from": "Вильнюс", "to": "Питер"},
-			"card4": {"from": "Питер", "to": "Пекин"}
+			"card0": {"from": "Лондон", "to": "Прага", "by": "train", "number": "614"},
+			"card1": {"from": "Прага", "to": "Вильнюс", "by": "car", "number": ""},
+			"card2": {"from": "Москва", "to": "Лондон", "by": "train", "number": "821"}, //первая,
+			"card3": {"from": "Вильнюс", "to": "Питер", "by": "car", "number": ""},
+			"card4": {"from": "Питер", "to": "Пекин", "by": "plane", "number": "87 - B"}
 		}, //выбирать с сервера
 		cardCount = Object.keys(notSortTables).length,
 		nCardSort = [],
-		uObj = {uniqId: 0, uniqTabl: "Лондон"};
+		uObj = {uniqId: 0, uniqTabl: ""};
 		
 	return {
 		doSet: function(){
-			for (var i = 0; i < 5; i++){ //TODO: рефакторинг
+			for (var i = 0; i < cardCount; i++){ 
 				var pName = "card" + i;
 				nCard[i] = constrTable(notSortTables[pName]);
 			}
@@ -63,11 +65,11 @@ var cardSet = (function(){
 				var cSet = nCard[j].getFrom(),
 					count = 0, 
 					uId = j;
-					for (var i = 0; i < hArr.length; i++){
-						if (cSet != hArr[i]) count++;
+					for (var i = 0; i < nCard.length; i++){
+						if (cSet != nCard[i]["to"]) count++;
 					}
 					
-					if (count == hArr.length) {
+					if (count == nCard.length) {
 						uObj.uniqTable = cSet;
 						uObj.uniqId = uId;
 
@@ -79,25 +81,29 @@ var cardSet = (function(){
 		},
 		
 		sortCard: function () {
-
-			for (var i = 0; i < 4; i++){
+			var cnt = Object.keys(nCard).length;
+			for (var i = 0; i < cnt; i++){
 				cardSet.checkUniq();
 
 				nCardSort[i] = nCard[uObj.uniqId];
-				
+				console.log(nCardSort[i]);
 				nCard.splice(uObj.uniqId, 1);
-				hArr.splice(uObj.uniqId, 1);
 			
 			}
-									console.log(nCardSort);
-			
+			return nCardSort;	
 		}
+		
+
 	}
 }());
 
 var testSet = cardSet;
 
-testSet.sortCard();
+var result = testSet.sortCard();
+for (var i = 0; i < Object.keys(result).length; i++){
+console.log("Go from " + result[i]["from"] + " to " + result[i]["to"] + " by " + result[i]["by"] + " " + result[i]["number"]);
+}
+
 
 
 </script>
