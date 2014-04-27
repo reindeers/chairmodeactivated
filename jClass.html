@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang = "ru">
+<head>
+<title></title>
+</head>
+<body>
+<div id = "rrr" class = "rr" name = "dfd" ></div>
+
+
+<script>
+var $ = function(els){
+		eLength = 0;
+	if (typeof els.length == "undefined"){
+	 var elements = els;
+	 eLength = 1;	 
+	 
+	 } else {
+	 var elements = [];
+	for (var i = 0; i < els.length; i++){
+	elements[i] = els[i];
+	eLength++;
+
+	}
+	
+	}
+	
+	return new F(elements, eLength);
+}
+
+	function F(elements, eLength) {
+		this.elements = elements;
+		this.eLength = eLength;
+
+		
+	}
+F.prototype = { 
+	addClass: function(name){
+		var flg = false;
+		if (this.eLength == 1){
+			var names = this.elements.className.split(' ');
+			for (var j = 0; j < names.length; j++){
+				if(names[j] == name) {
+					flg = true;
+				}
+			}
+			if (!flg){
+				this.elements.className += " " + name;
+			}
+		} else {
+			for (var i = 0; i < this.eLength; i++){
+				flg = false;
+				var names = this.elements[i].className.split(' ');
+				for (var j = 0; j < names.length; j++){
+					if (names[j] == name) {
+					flg = true;
+					}
+				}
+				if (!flg){
+					this.elements[i].className += " " + name;
+				}
+			}
+		}
+		return this;
+	},
+	removeClass: function(name){
+		if (this.eLength == 1){
+			var re = new RegExp("(^|\\s)" + name + "(\\s|$)", "g");
+			this.elements.className = this.elements.className.replace(re, "$1").replace(/\s+/g, " ").replace(/(^ | $)/g, "");
+		} else {
+			for (var i = 0; i < this.eLength; i++){
+				var re = new RegExp("(^|\\s)" + name + "(\\s|$)", "g");
+				this.elements[i].className = this.elements[i].className.replace(re, "$1").replace(/\s+/g, " ").replace(/(^ | $)/g, "");
+			}
+		}
+		return this;
+	},
+
+	hasClass: function(name){
+		if (this.eLength == 1){
+			if (this.elements.className == name){
+				return true;
+			}else {
+				return false;
+			}
+		} else {
+			for (var i = 0; i < this.eLength; i++){
+				if (this.elements[i].className == name){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+		}
+	},
+	
+	toggleClass: function(name){
+			this.hasClass(name) ? this.removeClass(name) : this.addClass(name);
+			return this;
+	}
+}
+
+console.log($(document.getElementById("rrr")).addClass("olol").hasClass("olol"));
+</script>
+</body>
+</html>

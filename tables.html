@@ -30,7 +30,6 @@ var constrTable = function(fTable){
 }
 
 
-
 var cardSet = (function(){
 	var nCard = [],
 		that = this,
@@ -40,7 +39,7 @@ var cardSet = (function(){
 			"card2": {"from": "Москва", "to": "Лондон", "by": "train", "number": "821"}, //первая,
 			"card3": {"from": "Вильнюс", "to": "Питер", "by": "car", "number": ""},
 			"card4": {"from": "Питер", "to": "Пекин", "by": "plane", "number": "87 - B"}
-		}, //выбирать с сервера
+		}, 
 		cardCount = Object.keys(notSortTables).length,
 		nCardSort = [],
 		uObj = {uniqId: 0, uniqTabl: ""};
@@ -51,8 +50,6 @@ var cardSet = (function(){
 				var pName = "card" + i;
 				nCard[i] = constrTable(notSortTables[pName]);
 			}
-						
-			
 		}(),
 		
 		getSet: function(){
@@ -74,7 +71,6 @@ var cardSet = (function(){
 						uObj.uniqId = uId;
 
 						return;
-
 					}
 				}
 			
@@ -84,27 +80,21 @@ var cardSet = (function(){
 			var cnt = Object.keys(nCard).length;
 			for (var i = 0; i < cnt; i++){
 				cardSet.checkUniq();
-
 				nCardSort[i] = nCard[uObj.uniqId];
 				console.log(nCardSort[i]);
 				nCard.splice(uObj.uniqId, 1);
-			
 			}
 			return nCardSort;	
 		}
-		
-
 	}
+	
 }());
 
 var testSet = cardSet;
-
 var result = testSet.sortCard();
 for (var i = 0; i < Object.keys(result).length; i++){
-console.log("Go from " + result[i]["from"] + " to " + result[i]["to"] + " by " + result[i]["by"] + " " + result[i]["number"]);
+	console.log("Go from " + result[i]["from"] + " to " + result[i]["to"] + " by " + result[i]["by"] + " " + result[i]["number"]);
 }
-
-
 
 </script>
 </body>
