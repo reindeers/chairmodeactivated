@@ -6,6 +6,19 @@
 </head>
 <body>
 <script>
+var arrayOfStringsSort =  function(array){
+	var length = array.length;
+	var min, c;
+	for (var i = 0; i < length-2; i++){
+		min = i;
+		for (var j = 0; j < length - 1; j++){
+			if (array[min] < array[j]){
+				min = j;
+			}
+		}
+		c = array[min]; array[min] = array[i]; array[i] = c;
+	}
+}
 
 var constrTable = function(fTable){
 	var that = this;
