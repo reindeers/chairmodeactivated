@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang = "ru">
+<head>
+<title></title>
+</head>
+<body>
+<script>
 var CSC = {
 	copy: function(){
 		return dObject.getAllData();
@@ -91,3 +99,10 @@ var newCommit = commitCreator({
 			changes: 'om-nom-nom69-222'
 		}
 	});
+
+	CSC.push(newCommit);
+	console.log(CSC.pull("2014-05-04 04:00:00"));
+	console.log(dObject);
+</script>
+</body>
+</html>
