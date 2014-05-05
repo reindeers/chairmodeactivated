@@ -1,3 +1,4 @@
+//комментарии
 var CSC = {
 	copy: function(){
 		return dObject.getAllData();
@@ -13,7 +14,7 @@ var CSC = {
 	}
 }
 
-var dObject = { //временно, изменить формат
+var dObject = { //временно
 	dateOfLastChange: '2014-05-04 04:30:00', //реализовать проверку
 	count: 2,
 	files: {
@@ -23,7 +24,7 @@ var dObject = { //временно, изменить формат
 			fork: "default",
 			"test.txt": {
 				tip: "chng",
-				data: "om-nom-nom-test", //не сам текст, а отличие от предыдущей версии
+				data: "om-nom-nom-test", 
 			},
 			"omnom.txt": {
 				tip: "chng",
@@ -46,7 +47,7 @@ var dObject = { //временно, изменить формат
 		}
 	},
 	log: function(){
-	//ведение лога
+		//лог
 	}
 }
 
