@@ -7,27 +7,35 @@ var dObject = require("./chKernel");
 http.createServer(function(req, res){
 	switch(opts.cmnd){
 		pull: function(){
-			return dObject.getNewData(date);
+			res.end(dObject.getNewData(date));
+			res.end('ok');			
 		};
 		break;
 		push: function(){
 			dObject.setNewData(pushData); //идентификация
+			res.end('ok');	
 		};
 		break;
 		copy: function(){
-			return dObject.getAllData();
+			res.end(dObject.getAllData());
 		};
 		break;
 		fixFiles: function(){
 			dObject.fixFiles();
+			res.end('ok');	
 		};
 		break;
 		doBackup: function(){
 			dObject.doBackup();
+			res.end('ok');	
 		}
 		break;
+		default: function(){
+			console.log("Wrong arg");
+			res.end('no');	
+		}
 
 	}
-	
 
-}).listen(3000);
+
+}).listen(1337, '127.0.0.1');
