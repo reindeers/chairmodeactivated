@@ -1,0 +1,4 @@
+{"level":"info","message":"Hello webhook log files!","timestamp":"2014-05-13T16:16:22.631Z"}
+{"level":"info","message":"Hello webhook log files!","timestamp":"2014-05-13T16:26:15.432Z"}
+{"level":"info","message":"Hello webhook log files!","timestamp":"2014-05-13T16:31:10.794Z"}
+{"dateOfChange":"2014-05-04 04:40:00","userLastChange":"admin","fork":"default","changeset":{"test.txt":{"tip":"chng","changes":"om-nom-nom69-222"}},"level":"info","message":"","timestamp":"2014-05-13T16:32:40.926Z"}
