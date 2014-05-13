@@ -1,41 +1,49 @@
 var http = require("http");
-
 var opts = require("optimist");
-
 var dObject = require("./chKernel");
+var config = require("config");
+var log = require("logging");
 
 http.createServer(function(req, res){
-	switch(opts.cmnd){
-		pull: function(){
+	/*switch(opts.cmnd){
+		case pull: 
 			res.end(dObject.getNewData(date));
 			res.end('ok');			
-		};
 		break;
-		push: function(){
+		case push: 
 			dObject.setNewData(pushData); //идентификация
 			res.end('ok');	
-		};
 		break;
-		copy: function(){
+		case copy: 
 			res.end(dObject.getAllData());
-		};
 		break;
-		fixFiles: function(){
+		case fixFiles: 
 			dObject.fixFiles();
 			res.end('ok');	
-		};
 		break;
-		doBackup: function(){
+		case doBackup:
 			dObject.doBackup();
 			res.end('ok');	
-		}
 		break;
-		default: function(){
+		default:
 			console.log("Wrong arg");
 			res.end('no');	
+
+	}*/
+
+	
+
+
+res.end(log.getCommitLogger({
+		dateOfChange: '2014-05-04 04:40:00',
+		userLastChange: 'admin',
+		fork: 'default',
+		changeset:{
+		"test.txt": { 
+				tip: 'chng',
+				changes: 'om-nom-nom69-222'
+			}
 		}
+	}));
 
-	}
-
-
-}).listen(1337, '127.0.0.1');
+}).listen(config.get('port'), "127.0.0.1");

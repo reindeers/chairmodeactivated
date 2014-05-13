@@ -7,7 +7,7 @@ function clone(obj){
     return temp;
 }
 
-var CSC = {
+/*var CSC = {
 	copy: function(){
 		return dObject.getAllData();
 	},
@@ -23,7 +23,7 @@ var CSC = {
 	doBackup: function(){
 		dObject.doBackup();
 	}
-}
+}*/
 
 var dObject = { //рефактор
 	dateOfLastChange: '', //реализовать проверку
@@ -63,3 +63,5 @@ dObject.setNewData = function(pushData){
 	dObject.dateOfLastChange = pushData.dateOfChange;
 	dObject.log(pushData);
 }
+
+module.exports = dObject;
