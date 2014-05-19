@@ -14,23 +14,20 @@ var Schema = mongoose.Schema;
 
 // Schemas
 
-var Chngst = new Schema({
-    tip:  type: String, required: true },
-    data:  type: String, required: true }
-});
+
 
 var Commit = new Schema({
     dateOfLastChange: { type: Date, default: Date.now },
     userLastChange: { type: String, required: true },
     fork: { type: String, default: "default" },
-    changeset: [Chngst]
+    changeset: { type: Object, required: true  }
 });
 
 // validation
 
-//var  = mongoose.model('', );
+var constCommit = mongoose.model('constCommit', Commit);
 
-//module.exports.
+module.exports.constCommit = constCommit;
 
 
       
