@@ -1,3 +1,5 @@
+var log = require("./log");
+
 function clone(obj){
     if(obj == null || typeof(obj) != 'object')
         return obj;
@@ -26,16 +28,9 @@ function clone(obj){
 }*/
 
 var dObject = { //рефактор
-	dateOfLastChange: '', //реализовать проверку
-	count: 0,
-	files: {},
-	log: function(pd){ //рефактор
-			var lg = [], cnt = 0;
-			for (var ll in pd.changeset){
-			lg[cnt] = ll +":	"+ pd.changeset[ll].tip +"	changes: " + 
-			pd.changeset[ll].changes +"	date: " + pd.dateOfChange +"	user: " +  pd.userLastChange +"	fork: " +  pd.fork;
-			cnt++;
-		}
+		dateOfLastChange: '', //реализовать проверку
+		count: 0,
+		files: {}
 	}
 }
 
@@ -61,7 +56,7 @@ dObject.setNewData = function(pushData){
 	dObject.files[dObject.count] = clone(pushData); 
 	dObject.count = dObject.count+1;
 	dObject.dateOfLastChange = pushData.dateOfChange;
-	dObject.log(pushData);
+	log(pushData);
 }
 
 module.exports = dObject;

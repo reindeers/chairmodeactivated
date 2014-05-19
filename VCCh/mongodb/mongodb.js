@@ -1,6 +1,6 @@
 var mongoose    = require('mongoose');
 
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect(config.get('mongoose:uri'));
 var db = mongoose.connection;
 
 db.on('error', function (err) {

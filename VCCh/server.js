@@ -2,7 +2,7 @@ var http = require("http");
 var opts = require("optimist");
 var dObject = require("./chKernel");
 var config = require("./config");
-var log = require("./log");
+
 
 http.createServer(function(req, res){
 	/*switch(opts.cmnd){
