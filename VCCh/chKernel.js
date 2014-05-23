@@ -1,3 +1,7 @@
+//устаревший файл
+var mongodb = require("./mongodb/mongodb.js");
+
+
 var log = require("./log");
 
 function clone(obj){
@@ -34,11 +38,11 @@ var dObject = { //рефактор
 	}
 }
 
-dObject.getAllData = function(){
+dObject.prototype.getAllData = function(){
 	return dObject;
 }
 
-dObject.getNewData = function(data){
+dObject.prototype.getNewData = function(data){
 var flag = false;
 var tmp = {};
 	for (v in dObject.files){
@@ -52,11 +56,13 @@ var tmp = {};
 	return tmp;
 }
 
-dObject.setNewData = function(pushData){
+dObject.prototype.setNewData = function(pushData){
 	dObject.files[dObject.count] = clone(pushData); 
 	dObject.count = dObject.count+1;
 	dObject.dateOfLastChange = pushData.dateOfChange;
 	log(pushData);
 }
+
+
 
 module.exports = dObject;

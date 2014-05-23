@@ -32,7 +32,14 @@ http.createServer(function(req, res){
 	}*/
 
 	
-
+commitCreator = function(cObject){
+	return {
+		dateOfChange: cObject.dateOfChange || new Date(), //исправить
+		userLastChange: cObject.userLastChange || '',
+		fork: cObject.fork || 'default',
+		changeset: cObject.changeset || ''
+	}
+}
 
 res.end(log.getCommitLogger({
 		dateOfChange: '2014-05-04 04:40:00',
