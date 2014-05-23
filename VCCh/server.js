@@ -41,16 +41,6 @@ commitCreator = function(cObject){
 	}
 }
 
-res.end(log.getCommitLogger({
-		dateOfChange: '2014-05-04 04:40:00',
-		userLastChange: 'admin',
-		fork: 'default',
-		changeset:{
-		"test.txt": { 
-				tip: 'chng',
-				changes: 'om-nom-nom69-222'
-			}
-		}
-	}));
+res.end();
 
 }).listen(config.get('port'), "127.0.0.1");
