@@ -1,0 +1,24 @@
+<html>
+
+<header>
+ <div class="user-block">
+  <div ng-model="email">a@x.com</div>
+ </div>
+
+<script src="elements.js"></script>
+
+<script>
+
+if (elements(by.tag('header')).elements(by.css('.user-block')).elements(by.attr('ng-model', 'email')).first().text() == 'a@x.com') {
+ alert('Задание выполнено!');
+}
+
+
+</script>
+
+
+</header>
+
+<body></body>
+
+</html>
